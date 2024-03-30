@@ -21,11 +21,12 @@ class Game:
             self.screen_size = (1200, 780)
             self.screen_center = tuple([x / 2 for x in self.screen_size])
             self.frame_rate = 60
-            self.boost_factor = 0.2
+            self.boost_factor = 0.15
             self.clock = pygame.time.Clock()
             self.screen = pygame.display.set_mode(self.screen_size)
             self.surface = pygame.Surface(self.screen_size, pygame.SRCALPHA)
             self.font1 = pygame.font.SysFont("calibri", 20)
+            self.font2 = pygame.font.SysFont("calibri", 15)
 
         def set_properties(n) -> list:
             bodies = [Body() for _ in range(n)]
@@ -107,20 +108,32 @@ class Game:
         pygame.draw.line(
             self.screen,
             Util.grey_color,
-            self.screen_size,
-            (self.screen_size[0] - 150, self.screen_size[1] - 150),
+            (self.screen_size[0] - 20, self.screen_size[1] - 20),
+            (self.screen_size[0] - 100, self.screen_size[1] - 100),
         )
         pygame.draw.line(
             self.screen,
             Util.grey_color,
-            (self.screen_size[0] - 150, self.screen_size[1] - 150),
-            (self.screen_size[0] - 150, 0),
+            (self.screen_size[0] - 100, self.screen_size[1] - 100),
+            (self.screen_size[0] - 100, self.screen_size[1] - 250),
         )
         pygame.draw.line(
             self.screen,
             Util.grey_color,
-            (self.screen_size[0] - 150, self.screen_size[1] - 150),
-            (0, self.screen_size[1] - 150),
+            (self.screen_size[0] - 100, self.screen_size[1] - 100),
+            (self.screen_size[0] - 250, self.screen_size[1] - 100),
+        )
+        self.screen.blit(
+            self.font2.render("y", True, Util.white_color),
+            (self.screen_size[0] - 115, self.screen_size[1] - 265),
+        )
+        self.screen.blit(
+            self.font2.render("z", True, Util.white_color),
+            (self.screen_size[0] - 15, self.screen_size[1] - 15),
+        )
+        self.screen.blit(
+            self.font2.render("-x", True, Util.white_color),
+            (self.screen_size[0] - 265, self.screen_size[1] - 115),
         )
 
     def render_text(self, start_time) -> None:
@@ -129,6 +142,24 @@ class Game:
                 "t: {}".format(time.time() - start_time), True, Util.white_color
             ),
             (10, self.screen_size[1] - 15),
+        )
+        self.screen.blit(
+            self.font2.render(
+                "Relative accuracy: {}%".format(
+                    min(
+                        100,
+                        int(
+                            100
+                            - abs(self.clock.get_fps() - self.frame_rate)
+                            / self.frame_rate
+                            * 100
+                        ),
+                    )
+                ),
+                True,
+                Util.white_color,
+            ),
+            (self.screen_size[0] - 150, 5),
         )
 
     def run(self) -> None:
