@@ -1,4 +1,4 @@
-# n-body Simulation
+# $n$-body Simulation
 
 ## About
 This is an approximate simulation of `n` celestial bodies in 3D space under the influence of each others' gravitational force. It tries to simulate the unpredictable trajectories of an n-body system. The motion is always chaotic  $\forall n \geq 3$.
